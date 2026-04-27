@@ -63,9 +63,40 @@ pip install fastapi uvicorn sqlalchemy pydantic redis python-jose passlib python
 mysql -u root -p < database.sql
 
 # 5. 配置敏感信息
+在前端代码news-vue/src/config/api.js中，填写在阿里云百炼申请的api key
 ```
-在前端代码news-vue/src/
 
+### ▶️ 启动服务
+```bash
+# 在终端启动后端Fastapi
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# 在文件夹news-vue启动前端
+cd news-vue
+npm install
+npm run dev
+```
+
+###  ✅ 项目展示
+登录与注册
+
+新闻分类与列表
+
+新闻详情与推荐
+
+个人信息
+
+修改密码
+
+收藏
+
+浏览历史
+
+
+### 🔍 接口调试
+📖 自动生成的 Swagger 文档：http://localhost:8000/docs 
+📋 ReDoc 文档：http://localhost:8000/redoc 
+💻 本地调试可直接使用 test_main.http 文件（PyCharm/VSCode 均支持）
 
 
 
@@ -140,16 +171,45 @@ news-Fastapi/
 ├── main.py                   # FastAPI项目入口文件
 └── test_main.http            # HTTP接口测试脚本
 ```
+
+
 ## 🧩 核心流程
+1. 🔄 接口请求处理流程
+```plaintext
+前端请求 → 路由层（routers/）接收 → Schema 校验请求参数 → 业务逻辑层（CRUD/AI）处理 → 统一响应格式返回
+```
+2. 🔐 用户认证流程
+```plaintext
+用户登录 → 验证账号密码 → 生成 JWT Token → 前端存储 Token → 后续请求携带 Token → 后端解析验证 Token 合法性
+```
+3. ⚡ 新闻缓存流程
+```plaintext
+查询新闻列表/详情 → 先查 Redis 缓存 → 缓存命中直接返回 → 缓存未命中 → 查询数据库 → 写入缓存 → 返回数据
+```
+4. 🤖 AI 功能调用流程
+```plaintext
+前端发起AI请求（如生成摘要）→ AI路由层接收 → 校验新闻ID/文本参数 → 查AI结果缓存 → 缓存命中直接返回 → 缓存未命中 → 调用AI模块封装的通义千问API → 解析返回结果 → 写入AI缓存 + 记录AI操作日志 → 返回标准化结果
+```
+5. ❓ 智能问答流程
+```plaintext
+用户输入问题 → 前端提交问题+关联新闻ID → 后端检索对应新闻内容 → 构造通义千问Prompt（问题+新闻上下文）→ 调用大模型API → 解析回答结果 → 返回给前端
+```
+
 
 
 ## ⚠️ 注意事项
+📦 环境依赖：确保 Python 版本 ≥ 3.10，Redis 服务正常运行，数据库账号具备建表 / 读写权限；
+⚡ 缓存策略：新闻新增 / 修改 / 删除后需清理对应新闻缓存和 AI 结果缓存，避免数据不一致；
+🚦 AI API 限流：通义千问 API 有调用频率 / 额度限制，需在 ai/base.py 中配置限流、重试机制，避免触发风控；
+📚 日志配置：生产环境建议将日志输出到文件，并配置日志轮转，重点记录 AI API 调用、异常信息；
+🛡️ 权限控制：当前基础版本仅实现登录认证，生产环境需补充角色权限；
+🌐 前端跨域：若前后端分离部署，需在 FastAPI 中配置跨域允许列表，避免跨域问题；
+💾 数据备份：定期备份 database.sql 及数据库数据，AI 操作记录建议保留，便于排查问题；
+📦 编译缓存：__pycache__ 目录为自动生成，无需手动维护，已加入 .gitignore 忽略。
 
 
 
-
-
-
-
-
-## 项目结构
+<div align="center">
+<p>Made with ❤️ by NewsMind Team</p>
+<p>📧 联系我们: contact@newsmind.tech | 🌐 官网: https://newsmind.tech</p>
+</div>
