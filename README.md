@@ -79,19 +79,19 @@ npm run dev
 
 ###  ✅ 项目展示
 登录与注册
-
+![登录与注册](images/登录与注册.png)
 新闻分类与列表
-
+![新闻列表](images/新闻列表.png)
 新闻详情与推荐
-
+![新闻详情与推荐](images/新闻详情与推荐.png)
 个人信息
-
+![用户登录与个人信息](images/用户登录与个人信息.png)
 修改密码
-
+![个人信息修改](images/个人信息修改.png)
 收藏
-
+![收藏](images/收藏.png)
 浏览历史
-
+![浏览历史](images/浏览历史.png)
 
 ### 🔍 接口调试
 📖 自动生成的 Swagger 文档：http://localhost:8000/docs 
@@ -128,6 +128,15 @@ news-Fastapi/
 │   ├── news.py               # 新闻核心数据操作
 │   ├── news_cache.py         # 新闻缓存交互逻辑
 │   └── users.py              # 用户数据操作
+├── images/                   # 项目截图资源目录
+│   ├── .gitkeep
+│   ├── 个人信息修改.png
+│   ├── 收藏.png
+│   ├── 新闻列表.png
+│   ├── 新闻详情与推荐.png
+│   ├── 浏览历史.png
+│   ├── 用户登录与个人信息.png
+│   └── 登录与注册.png
 ├── models/                   # 数据库ORM模型目录
 │   ├── __pycache__/          # 模型模块编译缓存
 │   ├── favorite.py           # 收藏表模型
