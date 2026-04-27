@@ -219,6 +219,6 @@ news-Fastapi/
 
 
 <div align="center">
-<p>Made with ❤️ by NewsMind Team</p>
-<p>📧 联系我们: contact@newsmind.tech | 🌐 官网: https://newsmind.tech</p>
+<p>Made with ❤️ by LiXingZhao</p>
+<p>📧 联系我: lixingzhao_lxz@163.com
 </div>
